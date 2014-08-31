@@ -27,6 +27,7 @@ end
 def main_menu
   puts "\n\n******** MAIN MENU ********\n\n"
   puts "Press the corresponding letter to select choice\n\n"
+  puts "[r] Add a rating into the system"
   puts "[a] Add a movie for the current movie listing"
   puts "[l] List all movies in the current movie listing"
   puts "[d] Remove a movie from the current movie listing"
@@ -35,7 +36,9 @@ def main_menu
   puts "[s] Search for a movie and see how many customers came to see it"
   puts "[w] Return to the welcome menu"
   menu_choice = gets.chomp.downcase
-  if menu_choice == 'a'
+  if menu_choice == 'r'
+    add_rating
+  elsif menu_choice == 'a'
     add_movie
   elsif menu_choice == 'l'
     list_movies
@@ -53,5 +56,17 @@ def main_menu
     puts "Please enter a valid option"
     main_menu
   end
+end
+
+def add_rating
+  puts "\n\nWhat is the rating that you would like to add?\n\n"
+  rating_name = gets.chomp
+  new_rating = Rating.create({:name => rating_name})
+  if new_rating.save
+    puts "\n'#{new_rating.name}' has been added to the system"
+  else
+    puts "That wasn't a valid rating name"
+  end
+  main_menu
 end
 welcome
