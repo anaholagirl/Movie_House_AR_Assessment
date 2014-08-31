@@ -123,4 +123,10 @@ def add_customer
   end
   main_menu
 end
+
+def list_customers
+  puts "\n\nHere is a list of all the current customers and the movie they saw"
+  Customer.all.each {|customer| puts customer.name + " saw " + customer.movie.name}
+  main_menu
+end
 welcome
