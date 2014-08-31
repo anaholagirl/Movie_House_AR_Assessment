@@ -88,4 +88,11 @@ def add_movie
   main_menu
 end
 
+def list_movies
+  puts "\n\nHere is a list of all the movies in the current movie listing \n\n"
+  Movie.all.each {|movie| puts movie.name}
+  puts "\nBe careful! These movies are not suitable for children!\n\n"
+  Movie.unsuitable.each { |movie| puts movie.name }
+  main_menu
+end
 welcome
