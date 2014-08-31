@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pry'
 
 describe Movie do
   it 'has many customers' do
@@ -17,5 +18,10 @@ describe Movie do
   it 'validates presence of name' do
     test_movie = Movie.new({:name => 'Star Wars'})
     expect(test_movie.save).to eq true
+  end
+
+  it 'finds all the movies that are not suitable for children' do
+    test_movie = Movie.create({:name => 'The Matrix', :rating_id => 'R'})
+    expect(Movie.r_movie).to eq [test_movie]
   end
 end

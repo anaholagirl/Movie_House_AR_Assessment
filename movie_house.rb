@@ -85,4 +85,11 @@ def add_movie
   end
   main_menu
 end
+
+def list_movies
+  puts "\n\nHere is a list of all the movies in the current movie listing \n\n"
+  Movie.all.each {|movie| puts movie.name}
+  puts "\n\nBe careful! These movies are for adults and cannot be watched by anyone under 17!"
+  main_menu
+end
 welcome
