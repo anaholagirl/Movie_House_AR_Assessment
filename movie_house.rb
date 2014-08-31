@@ -107,4 +107,20 @@ def delete_movie
   main_menu
 end
 
+def add_customer
+  puts "\n\nHere is a list of all the movies playing\n\n"
+  Movie.all.each {|movie| puts movie.name}
+  puts "\n\nWhat is the name of the movie the customer is viewing?\n\n"
+  movie_name = gets.chomp
+  movie_choice = Movie.where({:name => movie_name}).first
+  puts "What is the name of the customer you would like to add?\n\n"
+  customer_name = gets.chomp
+  new_customer = Customer.create({:name => customer_name, :movie_id => movie_choice.id})
+  if new_customer.save
+    puts "'#{new_customer.name}' has been added to the system"
+  else
+    puts "That wasn't a valid customer name"
+  end
+  main_menu
+end
 welcome
