@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pry'
 
 describe Rating do
   it 'has many movies' do

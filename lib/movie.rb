@@ -4,5 +4,5 @@ class Movie < ActiveRecord::Base
 
   validates :name, :presence => true
 
-  scope :r_movie, -> { where(rating: 'R')}
-end
+  scope :unsuitable, -> { joins(:rating).group('movies.id').merge(Rating.r_rating) }
+ end

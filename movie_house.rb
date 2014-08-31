@@ -2,6 +2,7 @@ require 'active_record'
 require './lib/movie'
 require './lib/customer'
 require './lib/rating'
+require 'pry'
 
 database_configurations = YAML::load(File.open('./db/config.yml'))
 development_configuration = database_configurations['development']
@@ -77,7 +78,8 @@ def add_movie
   Rating.all.each { |rating| puts rating.name}
   puts "What is the rating of this movie?"
   rating_name = gets.chomp
-  new_movie = Movie.create({:name => movie_name, :rating_id => rating_name})
+  rating_choice = Rating.where({:name => rating_name}).first
+  new_movie = Movie.create({:name => movie_name, :rating_id => rating_choice.id})
   if new_movie.save
     puts "\n\n'#{new_movie.name}' has been added to the current movie listing!\n\n"
   else
@@ -86,10 +88,4 @@ def add_movie
   main_menu
 end
 
-def list_movies
-  puts "\n\nHere is a list of all the movies in the current movie listing \n\n"
-  Movie.all.each {|movie| puts movie.name}
-  puts "\n\nBe careful! These movies are for adults and cannot be watched by anyone under 17!"
-  main_menu
-end
 welcome

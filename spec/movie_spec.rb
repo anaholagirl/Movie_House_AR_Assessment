@@ -21,7 +21,11 @@ describe Movie do
   end
 
   it 'finds all the movies that are not suitable for children' do
-    test_movie = Movie.create({:name => 'The Matrix', :rating_id => 'R'})
-    expect(Movie.r_movie).to eq [test_movie]
+    test_rating1 = Rating.create({:name => 'R'})
+    test_rating2 = Rating.create({:name => 'PG13'})
+    test_movie1 = Movie.create({:name => 'The Matrix', :rating_id => test_rating1.id})
+    test_movie2 = Movie.create({:name => 'Star Wars', :rating_id => test_rating2.id})
+    test_movie3 = Movie.create({:name => 'Looper', :rating_id => test_rating1.id})
+    expect(Movie.unsuitable).to eq [test_movie1, test_movie3]
   end
 end
