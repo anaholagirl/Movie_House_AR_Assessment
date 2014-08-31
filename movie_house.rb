@@ -69,4 +69,20 @@ def add_rating
   end
   main_menu
 end
+
+def add_movie
+  puts "What is the name of the movie you would like to add?"
+  movie_name = gets.chomp
+  puts "Here is a list of the different ratings in the system\n\n"
+  Rating.all.each { |rating| puts rating.name}
+  puts "What is the rating of this movie?"
+  rating_name = gets.chomp
+  new_movie = Movie.create({:name => movie_name, :rating_id => rating_name})
+  if new_movie.save
+    puts "\n\n'#{new_movie.name}' has been added to the current movie listing!\n\n"
+  else
+    puts "That wasn't a valid movie name"
+  end
+  main_menu
+end
 welcome
