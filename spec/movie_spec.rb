@@ -13,4 +13,9 @@ describe Movie do
     test_movie = Movie.create({:name => 'Star Wars', :rating_id => test_rating.id})
     expect(test_movie.rating).to eq test_rating
   end
+
+  it 'validates presence of name' do
+    test_movie = Movie.new({:name => 'Star Wars'})
+    expect(test_movie.save).to eq true
+  end
 end
