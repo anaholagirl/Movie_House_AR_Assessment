@@ -95,4 +95,16 @@ def list_movies
   Movie.unsuitable.each { |movie| puts movie.name }
   main_menu
 end
+
+def delete_movie
+  puts "\n\nHere is a list of all the movies in the current movie listing \n\n"
+  Movie.all.each {|movie| puts movie.name}
+  puts "\n\nWhich movie would you like to remove from the system?"
+  movie_name = gets.chomp
+  movie_choice = Movie.where({:name => movie_name}).first
+  movie_choice.delete
+  puts "\n\n'#{movie_choice.name}' has been removed from the current movie listing\n\n"
+  main_menu
+end
+
 welcome
