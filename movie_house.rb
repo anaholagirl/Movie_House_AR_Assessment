@@ -35,6 +35,7 @@ def main_menu
   puts "[c] Add a new customer for the current day"
   puts "[v] View all customers and what movie they saw for the current day"
   puts "[s] Search for a movie and see how many customers came to see it"
+  puts "[z] Clear the entire database"
   puts "[w] Return to the welcome menu"
   menu_choice = gets.chomp.downcase
   if menu_choice == 'r'
@@ -51,6 +52,8 @@ def main_menu
     list_customers
   elsif menu_choice == 's'
     search_movie
+  elsif menu_choice == 'z'
+    clear_database
   elsif menu_choice == 'w'
     welcome
   else
@@ -72,18 +75,18 @@ def add_rating
 end
 
 def add_movie
-  puts "What is the name of the movie you would like to add?"
+  puts "What is the name of the movie you would like to add?\n\n"
   movie_name = gets.chomp
-  puts "Here is a list of the different ratings in the system\n\n"
+  puts "\n\nHere is a list of the different ratings in the system\n\n"
   Rating.all.each { |rating| puts rating.name}
-  puts "What is the rating of this movie?"
+  puts "\n\nWhat is the rating of this movie?\n\n"
   rating_name = gets.chomp
   rating_choice = Rating.where({:name => rating_name}).first
   new_movie = Movie.create({:name => movie_name, :rating_id => rating_choice.id})
   if new_movie.save
-    puts "\n\n'#{new_movie.name}' has been added to the current movie listing!\n\n"
+    puts "'#{new_movie.name}' has been added to the current movie listing!\n\n"
   else
-    puts "That wasn't a valid movie name"
+    puts "\n\nThat wasn't a valid movie name"
   end
   main_menu
 end
@@ -97,12 +100,13 @@ def list_movies
 end
 
 def delete_movie
-  puts "\n\nHere is a list of all the movies in the current movie listing \n\n"
+  puts "\n\nHere is a list of all the movies in the current movie listing"
   Movie.all.each {|movie| puts movie.name}
   puts "\n\nWhich movie would you like to remove from the system?"
   movie_name = gets.chomp
+  binding.pry
   movie_choice = Movie.where({:name => movie_name}).first
-  movie_choice.delete
+  movie_choice.destroy
   puts "\n\n'#{movie_choice.name}' has been removed from the current movie listing\n\n"
   main_menu
 end
@@ -113,11 +117,11 @@ def add_customer
   puts "\n\nWhat is the name of the movie the customer is viewing?\n\n"
   movie_name = gets.chomp
   movie_choice = Movie.where({:name => movie_name}).first
-  puts "What is the name of the customer you would like to add?\n\n"
+  puts "\n\nWhat is the name of the customer you would like to add?\n\n"
   customer_name = gets.chomp
   new_customer = Customer.create({:name => customer_name, :movie_id => movie_choice.id})
   if new_customer.save
-    puts "'#{new_customer.name}' has been added to the system"
+    puts "\n\n'#{new_customer.name}' has been added to the system"
   else
     puts "That wasn't a valid customer name"
   end
@@ -125,8 +129,26 @@ def add_customer
 end
 
 def list_customers
-  puts "\n\nHere is a list of all the current customers and the movie they saw"
+  puts "\n\nHere is a list of all the current customers and the movie they saw\n\n"
   Customer.all.each {|customer| puts customer.name + " saw " + customer.movie.name}
+  main_menu
+end
+
+def search_movie
+  puts "\n\nHere is a list of all the movies playing\n\n"
+  Movie.all.each {|movie| puts movie.name}
+  puts "\n\nWhat movie would you like to search for?\n\n"
+  movie_name = gets.chomp
+  movie_choice = Movie.where({:name => movie_name}).first
+  puts "\n\nA total of #{movie_choice.customers.count} saw this movie today\n\n"
+  main_menu
+end
+
+def clear_database
+  Movie.destroy_all
+  Rating.destroy_all
+  Customer.destroy_all
+  puts "\n\nThe Database has been cleared\n\n"
   main_menu
 end
 welcome
