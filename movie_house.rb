@@ -2,7 +2,6 @@ require 'active_record'
 require './lib/movie'
 require './lib/customer'
 require './lib/rating'
-require 'pry'
 
 database_configurations = YAML::load(File.open('./db/config.yml'))
 development_configuration = database_configurations['development']
@@ -104,7 +103,6 @@ def delete_movie
   Movie.all.each {|movie| puts movie.name}
   puts "\n\nWhich movie would you like to remove from the system?"
   movie_name = gets.chomp
-  binding.pry
   movie_choice = Movie.where({:name => movie_name}).first
   movie_choice.destroy
   puts "\n\n'#{movie_choice.name}' has been removed from the current movie listing\n\n"
